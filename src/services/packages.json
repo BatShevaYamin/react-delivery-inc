@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "customerId": 101,
+        "weight": 5,
+        "price": 20
+    },
+    {
+        "id": 2,
+        "customerId": 102,
+        "weight": 3,
+        "price": 15
+    },
+    {
+        "id": 3,
+        "customerId": 101,
+        "weight": 7,
+        "price": 25
+    },
+    {
+        "id": 4,
+        "customerId": 103,
+        "weight": 6,
+        "price": 30
+    },
+    {
+        "id": 5,
+        "customerId": 102,
+        "weight": 8,
+        "price": 35
+    }
+]

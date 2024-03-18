@@ -1,0 +1,51 @@
+[
+    {
+        "id": 1,
+        "customerId": 101,
+        "packageId": 201,
+        "weight": 5,
+        "price": 30
+    },
+    {
+        "id": 2,
+        "customerId": 102,
+        "packageId": 202,
+        "weight": 7,
+        "price": 40
+    },
+    {
+        "id": 3,
+        "customerId": 103,
+        "packageId": 203,
+        "weight": 8,
+        "price": 50
+    },
+    {
+        "id": 4,
+        "customerId": 101,
+        "packageId": 204,
+        "weight": 6,
+        "price": 35
+    },
+    {
+        "id": 5,
+        "customerId": 102,
+        "packageId": 205,
+        "weight": 9,
+        "price": 45
+    },
+    {
+        "id": 6,
+        "customerId": 103,
+        "packageId": 206,
+        "weight": 7,
+        "price": 55
+    },
+    {
+        "id": 7,
+        "customerId": 101,
+        "packageId": 207,
+        "weight": 4,
+        "price": 25
+    }
+]
