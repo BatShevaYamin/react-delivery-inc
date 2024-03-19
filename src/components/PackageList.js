@@ -1,25 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import GenericTable from './shared/GenericTable';
 import GenericButton from './shared/GenericButton';
 import useFetchData from '../hooks/useFetchData';
 import Modal from './Modal'; // Import the Modal component
-import { addPackage } from "../services/packageService"
+import { addPackageToLocalStorage, deletePackageFromLocalStorage, getAllPackages, setPackagesToLocalStorage } from '../services/packageService';
+import { getCustomerNameById } from '../services/customerService';
 
 
 const PackageList = () => {
-  const packages = useFetchData('data/packages.json');
-  const customers = useFetchData('data/customers.json');
 
-  const getCustomerNameById = (customerId) => {
-    const customer = customers.find(customer => customer.id === customerId);
-    return customer ? customer.name : 'Unknown Customer';
+  const [packages, setPackages] = useState([]);
+  const [packagesWithCustomerNames, setPackagesWithCustomerNames] = useState([]);
+
+  useEffect(() => {
+    setPackages(getAllPackages());
+    // Transform the packages data to include customer names
+    const updatedPackages = packages.map(pkg => ({
+      ...pkg,
+      customerName: getCustomerNameById(pkg.customerId)
+    }));
+
+    // Set the state with the updated packages data
+    setPackagesWithCustomerNames(updatedPackages.slice().sort((a, b) => a.id - b.id));
+    setRefresh(true);
+  }, [packages]); // Run this effect whenever packages changes
+
+    const [refresh, setRefresh] = useState(false);
+
+  const handleDeletePackages = (packagesId) => {
+    deletePackageFromLocalStorage(packagesId);
+    // Optionally, you can perform any additional actions after deletion
+    console.log(`packages with ID ${packagesId} deleted from localStorage`);
+    setPackages(getAllPackages());
   };
-
-  // Once packages and customers are fetched, map packages to include customer names
-  const packagesWithCustomerNames = packages.map(pkg => ({
-    ...pkg,
-    customerName: getCustomerNameById(pkg.customerId)
-  }));
 
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control the modal visibility
 
@@ -31,15 +44,24 @@ const PackageList = () => {
     setIsModalOpen(false);
   };
 
-  const handleSubmit = async (formData) => {
+  const handleSubmit = (formData) => {
     try {
       // Call the addPackage function from packageService.js
-      await addPackage(formData);
+      addPackageToLocalStorage(parseFields(formData));
+      setPackages(getAllPackages());
       handleCloseModal();
     } catch (error) {
       console.error('Error adding package:', error);
     }
   };
+
+  const parseFields = (formData) =>{
+    formData.id = parseInt(formData.id);
+    formData.customerId = parseInt(formData.customerId);
+    formData.weight = parseInt(formData.weight);
+    formData.price = parseInt(formData.price);
+    return formData
+  }
 
   const columns = [
     { key: 'id', header: 'ID' },
@@ -53,7 +75,7 @@ const PackageList = () => {
       ),
       render: (rowData) => (
         <>
-          <GenericButton onClick={()=> alert("delete is not supported yet")} variant="contained" name={"Delete"} />
+          <GenericButton onClick={()=> handleDeletePackages(rowData.id)} variant="contained" name={"Delete"} />
         </>
       ),
     },
@@ -61,6 +83,8 @@ const PackageList = () => {
 
 
   return (
+    <>
+    {refresh &&
     <>
       <GenericTable data={packagesWithCustomerNames} columns={columns} />
       <Modal
@@ -74,6 +98,8 @@ const PackageList = () => {
           { name: 'price', label: 'Price' },
         ]}
       />
+      </>
+      }
     </>
   );
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import './table.css';
 const GenericTable = ({ data, columns, button }) => {
   return (
     <table>

@@ -1,49 +1,64 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom'; // Assuming you're using React Router
 import GenericTable from './shared/GenericTable';
-import useFetchData from '../hooks/useFetchData';
-import { getRandomNumber, getCurrentDate, getCustomerNameById, getCustomerPackagesById, getTotalPrice, getTotalWeight } from '../services/invoiceService';
-import { useEffect } from 'react';
+import '../styles/invoice.css';
+import { buildInvoice } from '../services/invoiceService';
 
-const Invoice = (customerId) => {
-  const [invoice, setInvoice] = useState({});
-  const packages = useFetchData('data/packages.json');
-  const customers = useFetchData('data/customers.json');
+const Invoice = () => {
+    const { customer_id } = useParams(); // Retrieve customer_id from URL params
+    const [invoice, setInvoice] = useState();
+    
+    useEffect(() => {
+        const fetchInvoices = () => {
+            try {
+                const customerInvoices = buildInvoice(parseInt(customer_id));
+                setInvoice(customerInvoices);
+            } catch (error) {
+                console.error('Error fetching invoices:', error);
+            }
+        };
 
+        fetchInvoices();
+    }, [customer_id]);
 
-  useEffect(() => {
-    const fetchData = () => {
-      setInvoice(
-      {
-        randomId: getRandomNumber(),
-        date: getCurrentDate,
-        customerName: getCustomerNameById(customerId),
-        packages: getCustomerPackagesById(customerId),
-        totalPrice: getTotalPrice(getCustomerPackagesById(customerId)),
-        totalWeight: getTotalWeight(getCustomerPackagesById(customerId))
-      })
-    }
-    fetchData();
-  }, []);
+    const columns = [
+        { key: 'price', header: 'Price' },
+        { key: 'id', header: 'PackageID' },
+        { key: 'weight', header: 'Weight' },
+    ];
 
-  
+    return (
+        <div>
+            {invoice &&
+                <div className="invoice-container">
+                    <div className="invoice-header">
+                        <h3>Invoice Details</h3>
+                    </div>
 
-  const columns = [
-    { key: 'weight', header: 'Weight' },
-    { key: 'price', header: 'Price' },
-    { key: 'packageId', header: 'Package ID' },
-  ];
+                    <div className="invoice-body">
+                        <div className="invoice-row">
+                            <p><b>Date:</b> {invoice.date}</p>
+                        </div>
+                        <div className="invoice-row">
+                            <p><b>Invoice No:</b> {invoice.randomId}</p>
+                        </div>
+                        <div className="invoice-row">
+                            <p><b>Customer:</b> {invoice.customerName}</p>
+                        </div>
+                        <GenericTable data={invoice.packages} columns={columns} />
+                        <div className="invoice-row">
+                            <p className="total">Total Price: {invoice.totalPrice}</p>
+                            <p className="total">Total Weight: {invoice.totalWeight}</p>
+                        </div>
+                    </div>
 
-  return (
-    <>
-    <p>{customerId}</p>
-      {/* <p>Date: {invoice.date}</p>
-      <p>Invoice ID: {invoice.randomId}</p>
-      <p>Customer: {invoice.customerName}</p>
-      <GenericTable data={invoice.packages} columns={columns} />
-      <p>Total Price: {invoice.totalPrice}</p>
-      <p>Total Weight: {invoice.totalWeight}</p> */}
-    </>
-  );
+                    <div className="invoice-footer">
+                        <p>Thank you for your business!</p>
+                    </div>
+                </div>
+}
+        </div>
+    );
 };
 
 export default Invoice;

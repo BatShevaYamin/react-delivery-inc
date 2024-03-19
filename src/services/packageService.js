@@ -1,23 +1,39 @@
+export const addPackageToLocalStorage = (packageData) => {
+  const storedPackages = JSON.parse(localStorage.getItem('packages')) || [];
+  storedPackages.push(packageData);
+  setPackagesToLocalStorage(storedPackages);
+};
 
-import packages from '../data/packages.json';
-// import fs from 'fs';
+export const deletePackageFromLocalStorage = (packageId) => {
+  const storedPackages = JSON.parse(localStorage.getItem('packages')) || [];
+  const updatedPackages = storedPackages.filter(pkg => pkg.id !== packageId);
+  setPackagesToLocalStorage(updatedPackages);
+};
 
-const addPackage = async (packageData) => {
-  // const filePath = '../data/packages.json';
-  // fs.writeFile(filePath, JSON.stringify(packageData), (err) => {
-  //   if (err) {
-  //     console.error('Error writing JSON file:', err);
-  //   } else {
-  //     console.log('JSON file has been written successfully.');
-  //   }
-  // });
-  try {
-    packages.push(packageData);
-    return true;
-  } catch (error) {
-    console.error('Error adding package:', error.message);
-    return false;
+export const deleteCustomerPackagesFromLocalStorage = (customerId) => {
+  console.log(customerId);
+  debugger
+  const storedPackages = getAllPackages() || [];
+  
+  // Filter out packages belonging to the specified customer ID
+  const updatedPackages = storedPackages.filter(pkg => pkg.customerId !== customerId);
+  
+  // Update localStorage with the filtered packages
+  setPackagesToLocalStorage(updatedPackages);
+};
+
+export const getAllPackages = () => {
+  const storedPackages = localStorage.getItem('packages');
+  
+  if (storedPackages) {
+    return JSON.parse(storedPackages);
+  } else {
+    return [];
   }
 };
 
-export { addPackage };
+// Set packages to localStorage
+export const setPackagesToLocalStorage = (packages) => {
+  localStorage.setItem('packages', JSON.stringify(packages));
+};
+
