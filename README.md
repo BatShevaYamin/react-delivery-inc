@@ -5,14 +5,32 @@ Welcome to Delivery Inc.! Below is an overview of the project structure and the 
 ### Project Structure
 
 ```plaintext
-delivery-inc/
+project/
+│
+├── README.md
+│
+├── src/
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── index.css
+│   ├── index.js
+│   ├── logo.svg
+│   ├── output.txt
+│   ├── reportWebVitals.js
+│   └── setupTests.js
 │
 ├── components/
 │   ├── CustomerList.js
 │   ├── Invoice.js
 │   ├── InvoicesList.js
 │   ├── Modal.js
-│   └── PackageList.js
+│   ├── PackageList.js
+│   └── shared/
+│       ├── GenericButton.js
+│       ├── GenericForm.js
+│       ├── GenericTable.js
+│       └── table.css
 │
 ├── data/
 │   ├── customers.json
@@ -28,11 +46,15 @@ delivery-inc/
 │   ├── InvoicePage.js
 │   └── PackagePage.js
 │
-└── services/
-    ├── customerService.js
-    ├── fetchData.js
-    ├── invoiceService.js
-    └── packageService.js
+├── services/
+│   ├── customerService.js
+│   ├── fetchData.js
+│   ├── invoiceService.js
+│   └── packageService.js
+│
+└── styles/
+    └── invoice.css
+
 ```
 
 ### Changes Made
