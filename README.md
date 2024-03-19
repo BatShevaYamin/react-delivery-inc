@@ -1,43 +1,98 @@
-# Welcome new developer to Delivery Inc!
+## Delivery Inc. Delivery Software
 
-You’ve been hired to build our delivery software, unfortunately the previous developer made a huge
-mess with the code. Its your job to fix it.
+Welcome to Delivery Inc.! Below is an overview of the project structure and the changes made to improve the software.
 
-The menu button is not working. Please hook it up to the drawer so we can see the list of pages
-At the moment all the code is in one file. Please separate the pages into separate files and see if you can
+### Project Structure
 
-break down the components
+```plaintext
+delivery-inc/
+│
+├── components/
+│   ├── CustomerList.js
+│   ├── Invoice.js
+│   ├── InvoicesList.js
+│   ├── Modal.js
+│   └── PackageList.js
+│
+├── data/
+│   ├── customers.json
+│   ├── invoices.json
+│   └── packages.json
+│
+├── hooks/
+│   └── useFetchData.js
+│
+├── pages/
+│   ├── CustomerPage.js
+│   ├── Home.js
+│   ├── InvoicePage.js
+│   └── PackagePage.js
+│
+└── services/
+    ├── customerService.js
+    ├── fetchData.js
+    ├── invoiceService.js
+    └── packageService.js
+```
 
-There need to be 3 pages
+### Changes Made
 
-1. Customer list
+#### 1. Menu Button Fix
 
-2. Package list
+The menu button was hooked up to the drawer to enable navigation between different pages using react-router.
 
-3. Invoices
+#### 2. Code Separation
 
-Please use react-router to navigate between the pages
+Code was separated into files to improve modularity and maintainability. Each page and component was moved to its own file within the appropriate directory.
 
-**The customer page**
+- **components/**
+  - **CustomerList.js**: Displays a list of customers and allows deletion of customers.
+  - **Invoice.js**: Represents an individual invoice component.
+  - **InvoicesList.js**: Renders a list of invoices dynamically based on packages and customers.
+  - **Modal.js**: Provides modal functionality for adding packages.
+  - **PackageList.js**: Displays a list of packages sorted by shipping order and allows reordering of shipping orders.
 
-This page contains the list of customers. We need to be able to delete customers but you don’t have to
+- **pages/**
+  - **CustomerPage.js**: Implements the Customer List page.
+  - **Home.js**: Home page with the menu button and drawer navigation.
+  - **InvoicePage.js**: Implements the Invoice List page.
+  - **PackagePage.js**: Implements the Package List page.
 
-add any. When you click on create invoice button it take you to another page which will display the
+- **services/**
+  - **customerService.js**: Handles operations related to customers.
+  - **fetchData.js**: Contains utility functions for fetching data.
+  - **invoiceService.js**: Manages operations related to invoices.
+  - **packageService.js**: Manages operations related to packages.
 
-invoice dynamically based off of what is in the package list. See invoice example
+#### 3. Pages Implementation
 
-**The package list**
+Three pages were implemented as follows:
 
-This page contains a list of packages. It should be sorted by shippingOrder. Using a modal it should be
+- **Customer List**: Displays a list of customers. Allows deletion of customers and includes a "Create Invoice" button to navigate to the invoice page.
 
-possible to add new packages. See the Plus icon at the top of the table. It should be possible to reorder
+- **Package List**: Displays a list of packages sorted by shipping order. A modal is provided to add new packages, and buttons allow reordering of shipping orders.
 
-the shipping order using up and down buttons on each row.
+- **Invoices**: Dynamically generates a list of invoices based on packages and customers. No control elements are provided.
 
-**The invoice list**
+#### 4. Navigation Implementation
 
-The invoice list needs to be dynamically generated from packages and the customers and doesn’t have
-any controls
+React-router was utilized to enable seamless navigation between pages.
 
-Make sure to notice other bugs and other odd behaviors. Can you create a custom hook? Make sure to
-do that!
+#### 5. Custom Hook Creation
+
+A custom hook, `useFetchData`, was created to handle common functionality related to fetching data across components.
+
+### Additional Notes
+
+- Bugs and odd behaviors were addressed during the development process.
+- Separation of concerns and best practices for code organization and readability were followed throughout the project.
+
+### Running Instructions
+
+To run the project, follow these steps:
+
+1. Clone the repository to your local machine.
+2. Navigate to the project directory.
+3. Install dependencies using `npm install`.
+4. Start the development server using `npm start`.
+5. Open your web browser and visit `http://localhost:3000` to view the application.
