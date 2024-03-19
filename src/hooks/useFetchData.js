@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react';
-import fetchData from '../services/fetchData';
 
 const useFetchData = (url) => {
   const [data, setData] = useState([]);
-
   useEffect(() => {
-    const fetchDataFromApi = async () => {
-      const newData = await fetchData(url);
-      setData(newData);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url)
+          .then(data => data.json());
+        setData(response);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
 
-    fetchDataFromApi();
+    fetchData();
   }, [url]);
+
   return data;
 };
 

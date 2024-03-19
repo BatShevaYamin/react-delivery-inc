@@ -12,7 +12,6 @@ const addPackage = async (packageData) => {
   //   }
   // });
   try {
-    console.log("the data " + packageData);
     packages.push(packageData);
     return true;
   } catch (error) {

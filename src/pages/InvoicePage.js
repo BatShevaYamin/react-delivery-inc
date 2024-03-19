@@ -1,11 +1,11 @@
 import React from 'react';
-import InvoiceList from '../components/InvoiceList';
-
+import Invoice from '../components/Invoice';
+import InvoicesList from '../components/InvoicesList';
 const InvoicePage = () => {
   return (
     <div>
       <h1>Invoice List</h1>
-      <InvoiceList />
+      <InvoicesList />
     </div>
   );
 };

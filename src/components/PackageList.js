@@ -3,13 +3,13 @@ import GenericTable from './shared/GenericTable';
 import GenericButton from './shared/GenericButton';
 import useFetchData from '../hooks/useFetchData';
 import Modal from './Modal'; // Import the Modal component
-import {addPackage} from "../services/packageService"
+import { addPackage } from "../services/packageService"
 
 
 const PackageList = () => {
   const packages = useFetchData('data/packages.json');
   const customers = useFetchData('data/customers.json');
-  
+
   const getCustomerNameById = (customerId) => {
     const customer = customers.find(customer => customer.id === customerId);
     return customer ? customer.name : 'Unknown Customer';
@@ -20,7 +20,6 @@ const PackageList = () => {
     ...pkg,
     customerName: getCustomerNameById(pkg.customerId)
   }));
-
 
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control the modal visibility
 
@@ -36,7 +35,6 @@ const PackageList = () => {
     try {
       // Call the addPackage function from packageService.js
       await addPackage(formData);
-      console.log('New package added successfully');
       handleCloseModal();
     } catch (error) {
       console.error('Error adding package:', error);
@@ -45,7 +43,7 @@ const PackageList = () => {
 
   const columns = [
     { key: 'id', header: 'ID' },
-    { key: 'customerName', header:'CustomerName' },
+    { key: 'customerName', header: 'CustomerName' },
     { key: 'weight', header: 'Weight' },
     { key: 'price', header: 'Price' },
     {
@@ -55,7 +53,7 @@ const PackageList = () => {
       ),
       render: (rowData) => (
         <>
-          <GenericButton variant="contained" name={"Delete"} />
+          <GenericButton onClick={()=> alert("delete is not supported yet")} variant="contained" name={"Delete"} />
         </>
       ),
     },
@@ -71,7 +69,7 @@ const PackageList = () => {
         onSubmit={handleSubmit}
         fields={[
           { name: 'id', label: 'ID' },
-          { name: 'customerId', label:'Customer Id' },
+          { name: 'customerId', label: 'Customer Id' },
           { name: 'weight', label: 'Weight' },
           { name: 'price', label: 'Price' },
         ]}

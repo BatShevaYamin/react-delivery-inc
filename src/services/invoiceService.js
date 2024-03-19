@@ -1,31 +1,30 @@
-// // Corrected component name starting with an uppercase letter
-// import React, { useEffect, useState } from 'react';
-// import useFetchData from '../hooks/useFetchData'; // Assuming this is the custom hook file
 
-// const invoiceService = () => {
-//   const [invoices, setInvoices] = useState([]);
+import customers from '../data/customers.json';
+import packages from '../data/packages.json';
+const getCustomerPackagesById = (customerId) => {
+    return packages.filter(pkg => pkg.customerId === customerId);
+  }
 
-//   // Renamed the hook to start with "use"
-//   const { fetchData } = useFetchData("./data/invoices.json");
+  const getCustomerNameById = (customerId) => {
+    const customer = customers.find(customer => customer.id === customerId);
+    return customer ? customer.name : 'Unknown Customer';
+  };
 
-//   useEffect(() => {
-//     const fetchInvoicesData = async () => {
-//       const invoicesData = await fetchData('/invoices.json');
-//       setInvoices(invoicesData);
-//     };
-//     fetchInvoicesData();
-//   }, [fetchData]);
+  const getCurrentDate = () => {
+    return new Date().toLocaleDateString();
+  }
 
-//   return (
-//     <div>
-//       <h2>Invoices</h2>
-//       <ul>
-//         {invoices.map((invoice) => (
-//           <li key={invoice.id}>{invoice.name}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
+  const getRandomNumber = () => {
+    return Math.floor(Math.random() * (100 - 0 + 1)) + 0;
+  }
 
-// export default invoiceService;
+  const getTotalPrice = (packages) => {
+    return packages.reduce((total, pkg) => total + pkg.price, 0);
+  }
+
+  const getTotalWeight = (packages) => { 
+    return packages.reduce((total, pkg) => total + pkg.weight, 0);
+  }
+
+
+export { getCustomerPackagesById,  getCustomerNameById, getCurrentDate, getRandomNumber, getTotalPrice, getTotalWeight};
